@@ -113,3 +113,52 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count_no_class(self):
+        """To count all instances"""
+        from models import storage
+        file_path = os.path.abspath("/AirBnB_clone_v3/file.json")
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        storage.close()
+        print(storage.all())
+        self.assertEqual(0, storage.count())
+        self.assertEqual(0, storage.count(State))
+        state = State()
+        state.save()
+        amenity = Amenity()
+        amenity.save()
+        city = City()
+        city.save()
+        state2 = State()
+        state2.save()
+        storage.close()
+        self.assertEqual(2, storage.count(State))
+        self.assertEqual(4, storage.count())
+        storage.delete(state)
+        storage.delete(city)
+        storage.delete(state2)
+        storage.delete(amenity)
+        os.remove(file_path)
+        storage.close()
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """testing get by id"""
+        from models import storage
+        file_path = os.path.abspath("/AirBnB_clone_v3/file.json")
+        try:
+            os.remove(file_path)
+        except Exception as e:
+            pass
+        storage.close()
+        state = State()
+        state.save()
+        storage.close()
+        first_state_id = list(storage.all(State).values())[0].id
+        given = storage.get(State, first_state_id)
+        self.assertEqual(state.id, given.id)
+        storage.delete(state)
+        os.remove(file_path)
+        storage.close()
