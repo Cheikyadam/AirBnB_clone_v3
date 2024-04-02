@@ -56,7 +56,7 @@ def put_states(state_id):
     """upd a state"""
     try:
         data = request.get_json()
-        state = storage.get(State, state_id)
+        state = storage.get("State", state_id)
         if state is None:
             abort(404)
         for key, value in data.items():
