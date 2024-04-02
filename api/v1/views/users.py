@@ -48,7 +48,7 @@ def post_user():
         user = User(**data)
         user.save()
         return make_response(jsonify(user.to_dict()), 201)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
 
 
@@ -64,6 +64,7 @@ def put_user(user_id):
             if key not in ['id', 'email', 'created_at', 'updated_at']:
                 setattr(user, key, value)
         user.save()
+        storage.save()
         return make_response(jsonify(user.to_dict()), 200)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
