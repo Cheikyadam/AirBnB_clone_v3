@@ -60,7 +60,7 @@ def put_amens(amenity_id):
             abort(404)
         for key, value in data.items():
             if key not in ['id', 'created_at', 'updated_at']:
-                setattr(state, key, value)
+                setattr(amen, key, value)
         amen.save()
         return make_response(jsonify(amen.to_dict()), 200)
     except ValueError as e:
