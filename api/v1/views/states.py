@@ -32,7 +32,7 @@ def del_state(state_id):
     if state is None:
         abort(404)
     storage.delete(state)
-    storage.close()
+    storage.save()
     return make_response(jsonify({}), 200)
 
 
@@ -44,6 +44,7 @@ def post_states():
         if 'name' in data:
             state = State(**data)
             state.save()
+            storage.save()
             return make_response(jsonify(state.to_dict()), 201)
         return make_response(jsonify({'error': 'Missing name'}), 400)
     except ValueError as e:
@@ -62,6 +63,7 @@ def put_states(state_id):
             if key not in ['id', 'created_at', 'updated_at']:
                 setattr(state, key, value)
         state.save()
+        storage.save()
         return make_response(jsonify(state.to_dict()), 200)
     except ValueError as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
