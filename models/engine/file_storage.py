@@ -36,7 +36,9 @@ class FileStorage:
 
     def get(self, cls, id):
         """method to retrieve one object"""
-        if cls in classes.values():
+        if cls in classes.values() or cls in classes:
+            if cls in classes:
+                cls = classes[cls]
             idr = cls.__name__ + "." + id
             return self.__objects[idr]
 
