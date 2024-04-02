@@ -41,12 +41,13 @@ def post_amens():
     """Add a new amen"""
     try:
         data = request.get_json()
-        if 'name' in data:
+        if 'name' in list(data.keys()):
             amenity = Amenity(**data)
             amenity.save()
+            storage.save()
             return make_response(jsonify(amenity.to_dict()), 201)
         return make_response(jsonify({'error': 'Missing name'}), 400)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
 
 
@@ -62,6 +63,7 @@ def put_amens(amenity_id):
             if key not in ['id', 'created_at', 'updated_at']:
                 setattr(amen, key, value)
         amen.save()
+        storage.save()
         return make_response(jsonify(amen.to_dict()), 200)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
