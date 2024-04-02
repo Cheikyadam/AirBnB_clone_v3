@@ -36,7 +36,7 @@ def del_city(city_id):
     if city is None:
         abort(404)
     storage.delete(city)
-    storage.close()
+    storage.save()
     return make_response(jsonify({}), 200)
 
 
@@ -51,9 +51,10 @@ def post_cities():
                 abort(404)
             city = City(**data)
             city.state_id = state.id
+            city.save()
             return make_response(jsonify(city.to_dict()), 201)
         return make_response(jsonify({'error': 'Missing name'}), 400)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
 
 
@@ -70,5 +71,5 @@ def put_cities(city_id):
                 setattr(city, key, value)
         city.save()
         return make_response(jsonify(city.to_dict()), 200)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
