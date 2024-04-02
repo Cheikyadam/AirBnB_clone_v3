@@ -47,7 +47,7 @@ def post_states():
             storage.save()
             return make_response(jsonify(state.to_dict()), 201)
         return make_response(jsonify({'error': 'Missing name'}), 400)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
 
 
@@ -65,5 +65,5 @@ def put_states(state_id):
         state.save()
         storage.save()
         return make_response(jsonify(state.to_dict()), 200)
-    except ValueError as e:
+    except Exception as e:
         return make_response(jsonify({'error': 'Not a json'}), 400)
