@@ -12,7 +12,6 @@ from flask import make_response
 @app_views.route('/states/<state_id>/cities/', methods=['GET'])
 def get_cities(state_id):
     """Return all states"""
-    print("CALLED")
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
