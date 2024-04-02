@@ -50,7 +50,7 @@ def post_states():
         return make_response(jsonify({'error': 'Not a json'}), 400)
 
 
-@app_views.route('/states//<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'])
 def put_states(state_id):
     """upd a state"""
     try:
