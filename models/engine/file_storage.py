@@ -40,7 +40,10 @@ class FileStorage:
             if cls in classes:
                 cls = classes[cls]
             idr = cls.__name__ + "." + id
-            return self.__objects[idr]
+            try:
+                return self.__objects[idr]
+            except KeyError:
+                pass
 
     def count(self, cls=None):
         """Count number of obj"""
