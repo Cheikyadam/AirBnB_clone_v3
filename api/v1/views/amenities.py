@@ -18,9 +18,9 @@ def get_amenities():
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'])
-def get_amen(am_id):
+def get_amen(amenity_id):
     """Return an am"""
-    amen = storage.get("Amenity", am_id)
+    amen = storage.get("Amenity", amenity_id)
     if amen is None:
         abort(404)
     return jsonify(amen.to_dict())
