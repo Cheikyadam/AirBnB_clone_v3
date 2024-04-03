@@ -25,7 +25,7 @@ def get_user(user_id):
     return jsonify(user.to_dict())
 
 
-@app_views.route('/userss/<user_id>', methods=['DELETE'])
+@app_views.route('/users/<user_id>', methods=['DELETE'])
 def del_user(user_id):
     """Delcan a user"""
     user = storage.get("User", user_id)
